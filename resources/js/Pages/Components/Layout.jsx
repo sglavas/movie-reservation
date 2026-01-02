@@ -30,14 +30,17 @@ export default function Layout(props) {
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex h-16 items-center justify-between">
-              <div className="flex items-center">
+            <div className="flex h-16 items-center justify-between gap-20">
+              <div className="flex items-center gap-5">
                 <div className="shrink-0">
                   <img
-                    alt="Your Company"
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                    className="size-8"
+                    alt="Movie Theater"
+                    src="https://i.imgur.com/opNXcID.png"
+                    className="w-12"
                   />
+                </div>
+                <div>
+                    <h1 className='text-white'>ANDROMEDA CINEMA</h1>
                 </div>
                 <div className="hidden md:block">
                     <NavigationLink />
