@@ -16,7 +16,7 @@ const userNavigation = [
 ]
 
 
-export default function Layout({children}) {
+export default function Layout(props) {
   return (
     <>
       {/*
