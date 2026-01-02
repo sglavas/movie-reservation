@@ -7,3 +7,7 @@ Route::get('/', function () {
     return Inertia::render('HomePage');
 });
 
+
+Route::get('/contact', function() {
+    return Inertia::render('ContactPage');
+});
