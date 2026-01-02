@@ -1,5 +1,6 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { BellIcon } from '@heroicons/react/24/outline'
+import NavigationLink from './NavigationLink'
 
 const user = {
   name: 'Tom Cook',
