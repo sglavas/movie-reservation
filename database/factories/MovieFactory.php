@@ -16,8 +16,13 @@ class MovieFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
-            //
+            'title' => fake()->word(),
+            'duration' => 90,
+            'description' => fake()->paragraph(),
+            'genre' => 'Action',
+            'base_price' => 10,
         ];
     }
 }
