@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SeatSeeder::class);
         $this->call(ScreenSeeder::class);
         $this->call(TheaterSeeder::class);
+        $this->call(MovieSeeder::class);
 
         User::factory()->create([
             'first_name' => fake()->firstName(),
