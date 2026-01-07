@@ -22,8 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(TheaterSeeder::class);
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => fake()->email(),
+            'password' => 'password',
         ]);
     }
 }
