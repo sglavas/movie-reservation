@@ -22,12 +22,9 @@ function csvToArray($fileName) {
 
     $columnNames = array_shift($rows);
 
-    $data = [];
-
-    // Combine into an associative array
-    foreach($rows as $row) {
-        $data[] = array_combine($columnNames, $row);
-    }
+    $data = array_map(function ($row) use($columnNames){
+        return array_combine($columnNames, $row);
+    }, $rows);
 
     return $data;
 
