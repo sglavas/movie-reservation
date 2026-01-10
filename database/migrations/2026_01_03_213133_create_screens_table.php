@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Theater;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('screens', function (Blueprint $table) {
             $table->id();
-            $table->integer('theater_id');
+            $table->foreignIdFor(Theater::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->integer('regular_seats');
             $table->integer('couples_seats');
