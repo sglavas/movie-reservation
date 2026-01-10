@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ScreenSeeder::class);
         $this->call(SeatSeeder::class);
         $this->call(MovieSeeder::class);
+        $this->call(ShowtimeSeeder::class);
 
         User::factory()->create([
             'first_name' => fake()->firstName(),
