@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Movie;
+use App\Models\Reservation;
 use App\Models\Screen;
 
 class Showtime extends Model
@@ -24,6 +25,10 @@ class Showtime extends Model
 
     public function screen() {
         return $this->belongsTo(Screen::class);
+    }
+
+    public function reservations() {
+        return $this->hasMany(Reservation::class);
     }
     
 }
