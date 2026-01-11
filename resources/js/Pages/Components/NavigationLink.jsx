@@ -1,9 +1,9 @@
 import { usePage } from "@inertiajs/react";
 
 const navigation = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'Contact', href: '/contact', current: false },
-  { name: 'Movies ', href: '/movies', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'Contact', href: 'contact' },
+  { name: 'Movies ', href: 'movies' },
 ]
 
 
