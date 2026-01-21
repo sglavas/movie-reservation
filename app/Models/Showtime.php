@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Movie;
 use App\Models\Reservation;
 use App\Models\Screen;
+use App\Observers\ShowtimeObserver;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Showtime extends Model
 {
+    use HasFactory;
+    
     protected $fillable = [
         'movie_id',
         'screen_id',
@@ -30,5 +34,10 @@ class Showtime extends Model
     public function reservations() {
         return $this->hasMany(Reservation::class);
     }
-    
+
+    protected static function booted()
+    {
+        Showtime::observe(ShowtimeObserver::class);
+    }
+
 }
