@@ -2,12 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Seat;
+use App\Services\Seeder\ExtractSeedService;
+use Illuminate\Support\Facades\DB;
 
 class SeatSeeder extends Seeder
 {
+    public function __construct(
+        protected ExtractSeedService $extractionService,
+    )
+    {
+        //
+    }
     /**
      * Run the database seeds.
      */
@@ -15,17 +22,14 @@ class SeatSeeder extends Seeder
     {
         $fileName = database_path('seeds/csvs/seats.csv');
 
-        $data = csvToArray($fileName);
-
-        // If data doesn't exist
-        if(!$data){
-            $this->command->error("Data could not be retrieved");
-            return;
-        }
+        // $data = csvToArray($fileName);
+        $data = $this->extractionService->extractData($fileName);
 
         $this->command->info("Creating sample seats...");
 
-        Seat::insert($data);
+        DB::transaction(function () use($data) {
+            Seat::insert($data);
+        });
     }
 
 }

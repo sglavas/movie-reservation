@@ -2,12 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Movie;
+use App\Services\Seeder\ExtractSeedService;
+use Illuminate\Support\Facades\DB;
 
 class MovieSeeder extends Seeder
 {
+    public function __construct(
+        protected ExtractSeedService $extractionService,
+    )
+    {
+        //
+    }
     /**
      * Run the database seeds.
      */
@@ -15,16 +22,13 @@ class MovieSeeder extends Seeder
     {
         $fileName = database_path('seeds/csvs/movies.csv');
 
-        $data = csvToArray($fileName);
-
-        // If data doesn't exist
-        if(!$data){
-            $this->command->error("Data could not be retireved.");
-            return;
-        }
+        $data = $this->extractionService->extractData($fileName);
 
         $this->command->info('Creating sample movies...');
 
-        Movie::insert($data);
+        DB::transaction(function () use($data) {
+            Movie::insert($data);
+        });
+
     }
 }

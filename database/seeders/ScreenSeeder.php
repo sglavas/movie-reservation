@@ -2,12 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Screen;
+use App\Services\Seeder\ExtractSeedService;
+use Illuminate\Support\Facades\DB;
 
 class ScreenSeeder extends Seeder
 {
+    public function __construct(
+        protected ExtractSeedService $extractionService,
+    )
+    {
+        //
+    }
+
     /**
      * Run the database seeds.
      */
@@ -15,17 +23,13 @@ class ScreenSeeder extends Seeder
     {
         $fileName = database_path('seeds/csvs/joker-screens.csv');
 
-        $data = csvToArray($fileName);
-
-        // If data doesn't exist
-        if(!$data){
-            $this->command->error("Data could not be retrieved.");
-            return;
-        }
+        $data = $this->extractionService->extractData($fileName);
 
         $this->command->info('Creating sample screens...');
 
-        Screen::insert($data);
+        DB::transaction(function () use($data) {
+            Screen::insert($data);
+        });
 
     }
 }

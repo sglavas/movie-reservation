@@ -3,11 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\Theater;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Services\Seeder\ExtractSeedService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TheaterSeeder extends Seeder
 {
+    public function __construct(
+        protected ExtractSeedService $extractionService,
+    )
+    {
+        //
+    }
+
     /**
      * Run the database seeds.
      */
@@ -15,16 +23,12 @@ class TheaterSeeder extends Seeder
     {
         $fileName = database_path('seeds/csvs/theaters.csv');
 
-        $data = csvToArray($fileName);
-
-        // If data doesn't exist
-        if(!$data){
-            $this->command->error("Data could not be retrieved");
-            return;
-        }
+        $data = $this->extractionService->extractData($fileName);
 
         $this->command->info((('Creating sample theaters...')));
 
-        Theater::insert($data);
+        DB::transaction(function () use($data) {
+            Theater::insert($data);
+        });
     }
 }
