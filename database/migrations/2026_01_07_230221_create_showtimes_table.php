@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Movie::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Screen::class)->constrained()->cascadeOnDelete();
             $table->dateTime('start_time');
-            $table->dateTime('end_time')->nullable()->default(NULL);
+            $table->dateTime('end_time')->nullable();
             $table->boolean('subtitles');
             $table->boolean('3d');
             $table->boolean('dubbed');
