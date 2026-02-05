@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Showtime;
 
 class Movie extends Model
 {
@@ -22,4 +23,9 @@ class Movie extends Model
         'genre',
         'base_price'
     ];
+
+
+    public function showtimes() {
+        return $this->hasMany(Showtime::class);
+    }
 }
