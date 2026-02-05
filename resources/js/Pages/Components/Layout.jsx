@@ -27,8 +27,8 @@ export default function Layout(props) {
         <body class="h-full">
         ```
       */}
-      <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gray-800">
+      <div className="min-h-full bg-slate-900 text-white">
+        <Disclosure as="nav" className="relative bg-gray-800">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between gap-20">
               <div className="flex items-center gap-5">
@@ -93,7 +93,7 @@ export default function Layout(props) {
 
         </Disclosure>
 
-        <header className="relative bg-white shadow">
+        <header className="relative bg-gradient-to-b from-gray-800 to-transparent shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             {/* <h1 className="text-3xl font-bold tracking-tight text-gray-900">{children}</h1> */}
             <h1>{props.slot}</h1>
