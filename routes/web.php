@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShowtimeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,6 +13,5 @@ Route::get('/contact', function() {
     return Inertia::render('ContactPage');
 });
 
-Route::get('/movies', function() {
-    return Inertia::render('MoviePage');
-});
+// Index
+Route::get('/showtimes', [ShowtimeController::class, 'index']);
