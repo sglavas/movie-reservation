@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/react";
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Contact', href: 'contact' },
-  { name: 'Movies ', href: 'movies' },
+  { name: 'Showtimes ', href: 'showtimes' },
 ]
 
 
