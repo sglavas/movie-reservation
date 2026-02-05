@@ -57,15 +57,9 @@ export default function ShowtimePage({movies}) {
                                             })
                                         }
                                     </div>
-                                    {/* Show More Button
-                                        - Display if there are more than 2 showtime dates for each movie.
-                                        - Hide if otherwise 
-                                    */}
-                                    {/* <button onClick={toggleVisibility} type="button" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ${Object.values(showtimes).length > 2 ? '' : 'hidden'}`}>Show More</button> */}
                                     {/* The Rest of Showtime Dates */}
                                     <ShowtimeRow  
                                         dates={otherDates}
-                                        // visibility={visibility}
                                         movie={movie}
                                         showtimes={showtimes}
                                     />
