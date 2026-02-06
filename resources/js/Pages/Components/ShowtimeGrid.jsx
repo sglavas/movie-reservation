@@ -1,8 +1,11 @@
+import connectWithDash from "../../utils/showtimeHelpers";
+
 export default function ShowtimeGrid ({showtimes, movie}) {
     return(
         <div className="grid grid-cols-6 gap-1">
             {
                 showtimes.map((showtime) => {
+                    console.log("This is the ShowtimeGrid ", showtime)
                     // Turn the datetime string into a Date object
                     const date = new Date(showtime['start_time']);
                     if(movie.id === showtime['movie_id']){
@@ -19,7 +22,7 @@ export default function ShowtimeGrid ({showtimes, movie}) {
                                                 - Is in 3d (3D)
                                                 - Or is dubbed (DUB)
                                             Dynamically generate a dash between "SUB", "3D" and "DUB" */}
-                                        <div className="opacity-70">{showtime.subtitles ? "SUB" : null} {showtime.subtitles && showtime['3d'] || !showtime['3d'] && showtime.subtitles && showtime.dubbed  ? '-' : null} {showtime['3d'] ? "3D" : null} {showtime['3d'] && showtime.dubbed ? "-" : null} {showtime.dubbed ? "DUB" : null}</div>
+                                        <div className="opacity-70">{connectWithDash(showtime)}</div>
                                     </div>
 
                                     {/* Display the time in the HH-MM format */}
