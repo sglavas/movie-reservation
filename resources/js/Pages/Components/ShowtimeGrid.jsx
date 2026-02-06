@@ -5,7 +5,6 @@ export default function ShowtimeGrid ({showtimes, movie}) {
         <div className="grid grid-cols-6 gap-1">
             {
                 showtimes.map((showtime) => {
-                    console.log("This is the ShowtimeGrid ", showtime)
                     // Turn the datetime string into a Date object
                     const date = new Date(showtime['start_time']);
                     if(movie.id === showtime['movie_id']){
