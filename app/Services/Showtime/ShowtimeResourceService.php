@@ -10,7 +10,7 @@ class ShowtimeResourceService
     /**
      * Create a new class instance.
      */
-    public function useResource (Collection $orderedDates)
+    public function useResource (Collection $orderedDates): Collection
     {
         $filteredDates = $orderedDates->map(function (Collection $showtimesForDay) {
             return ShowtimeResource::collection($showtimesForDay);

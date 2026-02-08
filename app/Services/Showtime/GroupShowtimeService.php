@@ -2,15 +2,17 @@
 
 namespace App\Services\Showtime;
 
+use App\Models\Movie;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Collection;
 
 class GroupShowtimeService
 {
     /**
      * Create a new class instance.
      */
-    public function groupShowtimes ($movie)
+    public function groupShowtimes (Movie $movie): Collection
     {
         // Group the showtimes according to date
         $groupedShowtimes = $movie->showtimes->groupBy(function ($showtime) {
