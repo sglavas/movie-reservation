@@ -20,6 +20,17 @@ class OrderDateService
             return $firstPositionParsed > $secondPositionParsed;
         });
 
-        return $orderedDates;
+        //Sort showtime grid by screen number
+        $sortedByScreen = $orderedDates->map(function($sortedShwotime) {
+            return $sortedShwotime->sortBy('screen_id')->values();
+        });
+
+        // Sort showtime grid by date and time
+        $sortedByTime = $sortedByScreen->map(function($orderedDate) {
+            return $orderedDate->sortBy('start_time')->values();
+        });
+
+
+        return $sortedByTime;
     }
 }
