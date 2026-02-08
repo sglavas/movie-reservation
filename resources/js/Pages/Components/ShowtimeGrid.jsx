@@ -9,9 +9,11 @@ export default function ShowtimeGrid ({showtimes, movie}) {
                     const date = new Date(showtime['start_time']);
                     if(movie.id === showtime['movie_id']){
                         return(
-                            <a className="flex justify-center border-1 border-slate-800 py-3 px-5 transition duration-350 ease-in-out hover:border-sky-400"
+                            <a className={showtime['is_bookable'] 
+                                ? `flex justify-center border-1 border-slate-800 py-3 px-5 transition duration-350 ease-in-out hover:border-sky-400`
+                                : 'flex justify-center border-1 border-slate-800 py-3 px-5 opacity-60'}
                                key={showtime.id}
-                               href={`/showtime/${showtime.id}`}
+                               href={showtime['is_bookable'] ? `/showtime/${showtime.id}` : `#`}
                             >
                                 {/* Display information about the showtime */}
                                 <div className="flex flex-col justify-center">
