@@ -46,6 +46,55 @@ class ShowtimeController extends Controller
 
         return Inertia::render('Showtimes/Index', [
             'movies' => $movies,
+            'screens' => $screens,
         ]);
+    }
+
+
+    public function store()
+    {
+        // Validate input
+        $validateFormInfo = request()->validate([
+            'movie' => 'required|integer',
+            'theater' => 'required|integer',
+            'screen' => 'required|integer',
+            'date' => 'required|date',
+            'time' => ['required', 'date_format:H:i', $this->overlapRule],              // Implment custom overlap rule
+            'subtitles' => 'required|bool',
+            'is_3d' => 'required|bool',
+            'dubbed' => 'required|bool',
+        ]);
+
+
+        // Destructure the array
+        [
+            'movie' => $movie,
+            'screen' => $screen,
+            'date' => $date,
+            'time' => $time,
+            'subtitles' => $subtitles,
+            'is_3d' => $is_3d,
+            'dubbed' => $dubbed
+        ] = $validateFormInfo;
+
+        $dateTime = date('Y-m-d H:i:s', strtotime("$date $time"));
+
+        DB::transaction(function() use($movie, $screen, $dateTime, $subtitles, $is_3d, $dubbed){
+            // Create showtime
+            Showtime::create([
+                'movie_id' => $movie,
+                'screen_id' => $screen,
+                'start_time' => $dateTime,              // Combine date and time into datetime (Y-m-d H:i:s format)
+                'subtitles' => $subtitles,
+                'is_3d' => $is_3d,
+                'dubbed' => $dubbed
+            ]);
+        });
+
+        // Flash data
+        Inertia::flash('success', 'Showtime created successfully');
+
+        // Redirect
+        return back();
     }
 }
