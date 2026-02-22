@@ -12,10 +12,7 @@ class ShowtimePipelineService
     /**
      * Create a new ShowtimePipelineService instance
      *
-     * @param GroupShowtimeService $groupingService Groups showtimes by date
-     * @param OrderDateService $orderingService Orders showtimes by ascending
      * @param ShowtimeResourceService $filteringService Filters data using ShowtimeResource
-     * @param SetBookableService $bookableService Sets the bookable property
      */
     public function __construct(
         protected ShowtimeResourceService $filteringService,
