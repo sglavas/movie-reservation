@@ -13,7 +13,7 @@ const connectWithDash = (showtimeObject) => {
     */
     const MAP = {
         'subtitles': 'SUB',
-        '3d': '3D',
+        'is_3d': '3D',
         'dubbed': 'DUB'
     };
 
