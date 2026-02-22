@@ -1,6 +1,8 @@
-import connectWithDash from "../../utils/showtimeHelpers";
+import connectWithDash from "../../../utils/showtimeHelpers";
+import { usePage } from "@inertiajs/react";
 
-export default function ShowtimeGrid ({showtimes, movie}) {
+export default function ShowtimeGrid ({showtimes, movie}){
+    const { screens } = usePage().props;
     return(
         <div className="grid grid-cols-6 gap-1">
             {
@@ -29,7 +31,7 @@ export default function ShowtimeGrid ({showtimes, movie}) {
                                     {/* Display the time in the HH-MM format */}
                                     <div className="flex justify-center text-2xl font-bold">{date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute:'2-digit' })}</div>
                                     {/* Display the screen number of the showtime */}
-                                    <div className="flex justify-center opacity-90">Screen {showtime['screen_id']}</div>
+                                    <div className="flex justify-center opacity-90">Screen {screens[showtime['screen_id']].label}</div>
                                 </div>
                             </a>
                         )
