@@ -1,6 +1,7 @@
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { BellIcon } from '@heroicons/react/24/outline'
 import NavigationLink from './NavigationLink'
+import { Link } from '@inertiajs/react'
 
 const user = {
   name: 'Tom Cook',
@@ -95,8 +96,15 @@ export default function Layout(props) {
 
         <header className="relative bg-gradient-to-b from-gray-800 to-transparent shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            {/* <h1 className="text-3xl font-bold tracking-tight text-gray-900">{children}</h1> */}
-            <h1>{props.slot}</h1>
+            <div className='flex justify-between items-center'>
+              <h1>{props.slot}</h1>
+              <Link
+                className="rounded-md bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                href="/showtimes/create"
+              >
+                Create Showtime
+              </Link>
+            </div>
           </div>
         </header>
         <main>
