@@ -7,9 +7,10 @@ use App\Http\Resources\ScreenResource;
 use App\Models\Movie;
 use App\Models\Screen;
 use App\Models\Showtime;
+use App\Models\Theater;
 use App\Rules\ShowtimeOverlapRule;
 use App\Services\Showtime\CalculateEndTimeService;
-use App\Services\Showtime\ShowtimePipelineService;
+use App\Services\Showtime\MovieShowtimeScheduleView;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -18,7 +19,7 @@ class ShowtimeController extends Controller
     public function __construct(
         protected CalculateEndTimeService $calculatingService,
         protected ShowtimeOverlapRule $overlapRule,
-        protected ShowtimePipelineService $pipelineService,
+        protected MovieShowtimeScheduleView $presenterService,
     )
     {
         //
@@ -35,7 +36,7 @@ class ShowtimeController extends Controller
         $movies = Movie::with('showtimes')->get()->mapWithKeys(function ($movie) {
 
             // Funnel movies and showtimes through the pipeline to get
-            $bookableDates = $this->pipelineService->usePipeline($movie);
+            $bookableDates = $this->presenterService->usePipeline($movie);
 
             // Return an array with movie IDs as custom keys and an array of movie information and showtimes
             return [$movie->id => [

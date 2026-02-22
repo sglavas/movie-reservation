@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 
-class ShowtimePipelineService
+class MovieShowtimeScheduleView
 {
     /**
      * Create a new ShowtimePipelineService instance
