@@ -19,7 +19,7 @@ class Showtime extends Model
         'start_time',
         'end_time',
         'subtitles',
-        '3d',
+        'is_3d',
         'dubbed',
     ];
 

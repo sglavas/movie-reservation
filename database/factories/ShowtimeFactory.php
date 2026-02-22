@@ -23,7 +23,7 @@ class ShowtimeFactory extends Factory
             'start_time' => Carbon::now()->addDays(rand(0, 2))->startOfDay()->addHours(rand(8, 22)),
             'end_time' => null,
             'subtitles' => rand(0, 1),
-            '3d' => rand(0, 1),
+            'is_3d' => rand(0, 1),
             'dubbed' => rand(0, 1),
         ];
     }

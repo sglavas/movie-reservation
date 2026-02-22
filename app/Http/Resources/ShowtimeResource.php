@@ -20,7 +20,7 @@ class ShowtimeResource extends JsonResource
             'screen_id' => $this->screen_id,
             'start_time' => $this->start_time,
             'subtitles' => $this->subtitles,
-            '3d' => $this['3d'],
+            'is_3d' => $this->is_3d,
             'dubbed' => $this->dubbed,
         ];
     }

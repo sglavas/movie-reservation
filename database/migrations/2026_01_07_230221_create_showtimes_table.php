@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
             $table->boolean('subtitles');
-            $table->boolean('3d');
+            $table->boolean('is_3d');
             $table->boolean('dubbed');
             $table->timestamps();
         });
