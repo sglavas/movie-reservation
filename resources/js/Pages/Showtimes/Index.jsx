@@ -1,13 +1,9 @@
-import Layout from "./Components/Layout"
+import Layout from "../Components/Layout"
 import ShowtimeGrid from "./Components/ShowtimeGrid"
 import ShowtimeRow from "./Components/ShowtimeRow";
 
-export default function ShowtimePage({movies}) {
-
+export default function Index({movies}) {
     return(
-        <Layout
-            slot="Showtime Page"  
-        >
             <div className="flex flex-col">
                 {Object.values(movies).map(({movie, showtimes}) =>  {
 
@@ -71,6 +67,7 @@ export default function ShowtimePage({movies}) {
 
                 })}
             </div>
-        </Layout>
     )
 }
+
+Index.layout = page => <Layout children={page} slot="Showtime Page" />
