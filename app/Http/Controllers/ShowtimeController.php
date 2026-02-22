@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MovieResource;
+use App\Http\Resources\ScreenResource;
 use App\Models\Movie;
 use App\Services\Showtime\GroupShowtimeService;
 use App\Services\Showtime\OrderDateService;
@@ -25,6 +26,11 @@ class ShowtimeController extends Controller
 
     public function index()
     {
+        // Get all screens from the database and sort them according to screen id
+        $screens = Screen::all()->mapWithKeys(function ($screen) {
+            return[$screen->id => new ScreenResource($screen)];
+        });
+
         // Fetch the movies together with the corresponding showtimes and map over the array
         $movies = Movie::with('showtimes')->get()->mapWithKeys(function ($movie) {
 
