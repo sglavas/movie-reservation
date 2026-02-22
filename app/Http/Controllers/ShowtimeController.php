@@ -53,7 +53,7 @@ class ShowtimeController extends Controller
             ]];
         });
 
-        return Inertia::render('ShowtimePage', [
+        return Inertia::render('Showtimes/Index', [
             'movies' => $movies,
         ]);
     }
