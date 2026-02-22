@@ -2,8 +2,8 @@ import Layout from "./Components/Layout"
 
 export default function HomePage() {
     return(
-        <Layout
-            slot="Home Page"  
-        />
+        <div>This is a test</div>
     )
 }
+
+HomePage.layout = page => <Layout children={page} slot="Home Page" />
