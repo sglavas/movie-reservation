@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('screens', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Theater::class)->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->integer('label');
             $table->integer('regular_seats');
             $table->integer('couples_seats');
             $table->integer('disability_seats');

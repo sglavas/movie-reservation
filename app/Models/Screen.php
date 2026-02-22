@@ -18,7 +18,7 @@ class Screen extends Model
      */
     protected $fillable = [
         'theater_id',
-        'name',
+        'label',
         'regular_seats',
         'couples_seats',
         'vip_seats',
@@ -33,5 +33,9 @@ class Screen extends Model
 
     public function seats() {
         return $this->hasMany(Seat::class);
+    }
+
+    public function showtimes() {
+        return $this->hasMany(Showtime::class);
     }
 }
