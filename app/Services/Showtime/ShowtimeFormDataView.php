@@ -127,7 +127,7 @@ class ShowtimeFormDataView
      * Shapes data for ShowtimeInformation and ShowtimeAttributes components
      * 
      * Return data format:
-     * Collection {
+     * [
      *          'screens' => [
      *                  [
      *                      'id' => int,
@@ -146,27 +146,24 @@ class ShowtimeFormDataView
      *                      'genre' => string,
      *                   ],
      *            ]
-     * }
+     * ]
      * 
      *
      * @param Collection $screens All database screens containing id, theater_id and label
      * @param Collection $movieWithId (Key: movie_id, Value: Movie Model)
      * @param Collection $theaterWithId Lookup Collection (Key: theater_id, Value: Theater Model)
      * 
-     * @return Collection Returns a Collection ready to use in ShowtimeInformation and ShowtimeAttributes components
+     * @return array Returns an array ready to use in ShowtimeInformation and ShowtimeAttributes components
      * 
      * @note Assumes $movieWithId and $theaterWithId are keyed by their respective IDs.
      */
-    private function shapeShowtimeInformation(Collection $screens, Collection $movieWithId, Collection $theaterWithId): Collection
+    private function shapeShowtimeInformation(Collection $screens, Collection $movieWithId, Collection $theaterWithId): array
     {
-        // Initialize the screenInfo array
-        $screenInfo = [];
-
-        $screensWithTheaters = $screens->mapWithKeys(function ($screen) use($movieWithId, $theaterWithId, &$screenInfo){
+        $screensWithTheaters = $screens->map(function ($screen) use($theaterWithId){
             // Destructure the screen array
             ['id' => $id, 'theater_id' => $theater_id, 'label' => $label] = $screen;
 
-            $screenInfo [] = [
+            $screenInfo = [
                 'id' => $id,
                 'theater_id' => $theater_id,
                 'label' => $label,
@@ -174,14 +171,15 @@ class ShowtimeFormDataView
                 'city' => $theaterWithId[$theater_id]->city,
             ];
 
-            return[
-                'screens' => $screenInfo,
-                'movies' => $movieWithId->values()
-            ];
+            return $screenInfo;
         });
 
 
-        return $screensWithTheaters;
+        return[
+            'screens' => $screensWithTheaters,
+            'movies' => $movieWithId->values()
+        ];
+
     }
 
     /**
@@ -190,7 +188,7 @@ class ShowtimeFormDataView
      * Return format:
      * [
      *      'timeTableData' => Collection,
-     *      'screensWithTheaters' => Collection
+     *      'screensWithTheaters' => array
      * ]
      *
      * @param Collection $movies Movie collection containing ID, title, duration, description and genre
