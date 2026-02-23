@@ -188,7 +188,7 @@ class ShowtimeFormDataView
      * 
      * Return format:
      * [
-     *      'timeTableData' => Collection,
+     *      'timetableData' => array,
      *      'screensWithTheaters' => array
      * ]
      *
@@ -213,12 +213,7 @@ class ShowtimeFormDataView
         $showtimesOrderedbyScreen = $this->createKeysArray($movieWithId, $screens);
 
         // Filter out the screens with no showtimes
-        $filteredShowtimes = $showtimesOrderedbyScreen->filter(function ($showtime){
-            if(sizeof($showtime) > 0){
-                return $showtime;
-            }
-        });
-
+        $filteredShowtimes = $showtimesOrderedbyScreen->filter->isNotEmpty();
 
         // Shape the data to be used in the ShowtimeTimetable component
         $timetableData = $this->shapeTimetableData($screens, $filteredShowtimes, $theaterWithId);
