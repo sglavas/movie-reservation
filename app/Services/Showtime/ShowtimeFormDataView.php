@@ -38,6 +38,7 @@ class ShowtimeFormDataView
      * }
      *
      * @param Collection $movieWithId Lookup Collection (Key: movie_id, Value: Movie Model)
+     * @param Collection $screensWithShowtimes Screen collection with their corresponding showtimes
      * @return Collection Returns a collection of showtimes ready for front-end consumption using screen IDs as keys
      */
     private function createKeysArray(Collection $movieWithId, Collection $screensWithShowtimes): Collection
