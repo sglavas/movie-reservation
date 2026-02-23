@@ -11,6 +11,7 @@ use App\Models\Theater;
 use App\Rules\ShowtimeOverlapRule;
 use App\Services\Showtime\CalculateEndTimeService;
 use App\Services\Showtime\MovieShowtimeScheduleView;
+use App\Services\Showtime\ShowtimeFormDataView;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -20,6 +21,7 @@ class ShowtimeController extends Controller
         protected CalculateEndTimeService $calculatingService,
         protected ShowtimeOverlapRule $overlapRule,
         protected MovieShowtimeScheduleView $presenterService,
+        protected ShowtimeFormDataView $formPresenterService,
     )
     {
         //
@@ -48,6 +50,29 @@ class ShowtimeController extends Controller
         return Inertia::render('Showtimes/Index', [
             'movies' => $movies,
             'screens' => $screens,
+        ]);
+    }
+
+    public function create(){
+        // Select id, title, duration, description and genre from all movies
+        $movies = Movie::select('id', 'title', 'duration', 'description', 'genre')->get();
+        // Select id, name and city from all theaters
+        $theaters = Theater::select('id', 'name', 'city')->get();
+        // Select id, theater_id and label for all screens
+        $screens = Screen::select('id', 'theater_id', 'label')->get();
+
+        // Form data
+        $shapedData = $this->formPresenterService->shapeData($movies, $theaters, $screens);
+
+        [
+            'timeTableData' => $timetableData,
+            'screensWithTheaters' => $screensWithTheaters
+        ] = $shapedData;
+
+        return Inertia::render('Showtimes/Create', [
+            'theaters' => $theaters,
+            'timetables' => $timetableData,
+            'formInfo' => $screensWithTheaters,
         ]);
     }
 
