@@ -15,3 +15,5 @@ Route::get('/contact', function() {
 
 // Index
 Route::get('/showtimes', [ShowtimeController::class, 'index']);
+Route::get('/showtimes/create', [ShowtimeController::class, 'create']);
+Route::post('/showtimes', [ShowtimeController::class, 'store']);
