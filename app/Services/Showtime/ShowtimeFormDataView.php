@@ -2,7 +2,6 @@
 
 namespace App\Services\Showtime;
 
-use App\Models\Screen;
 use Illuminate\Support\Collection;
 
 class ShowtimeFormDataView
@@ -41,10 +40,10 @@ class ShowtimeFormDataView
      * @param Collection $movieWithId Lookup Collection (Key: movie_id, Value: Movie Model)
      * @return Collection Returns a collection of showtimes ready for front-end consumption using screen IDs as keys
      */
-    private function createKeysArray(Collection $movieWithId): Collection
+    private function createKeysArray(Collection $movieWithId, Collection $screensWithShowtimes): Collection
     {
         // Create an associative array of showtimes using screen IDs as keys for ShowtimeTimetable component
-        $showtimesOrderedbyScreen = Screen::with('showtimes')->get()->mapWithKeys(function ($screen) use($movieWithId) {
+        $showtimesOrderedbyScreen = $screensWithShowtimes->mapWithKeys(function ($screen) use($movieWithId) {
             $showtimeWithMovieName = $screen->showtimes->map(function ($showtime) use($movieWithId) {
                 $startTimeDate = date_create($showtime->start_time);
                 $endTimeDate = date_create($showtime->end_time);
@@ -212,7 +211,7 @@ class ShowtimeFormDataView
         });
 
         // Create an associative array of showtimes using screen IDs as keys for ShowtimeTimetable component
-        $showtimesOrderedbyScreen = $this->createKeysArray($movieWithId);
+        $showtimesOrderedbyScreen = $this->createKeysArray($movieWithId, $screens);
 
         // Filter out the screens with no showtimes
         $filteredShowtimes = $showtimesOrderedbyScreen->filter(function ($showtime){

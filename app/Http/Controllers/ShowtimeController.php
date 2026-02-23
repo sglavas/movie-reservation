@@ -58,8 +58,8 @@ class ShowtimeController extends Controller
         $movies = Movie::select('id', 'title', 'duration', 'description', 'genre')->get();
         // Select id, name and city from all theaters
         $theaters = Theater::select('id', 'name', 'city')->get();
-        // Select id, theater_id and label for all screens
-        $screens = Screen::select('id', 'theater_id', 'label')->get();
+        // Select id, theater_id and label for all screens together with corresponding showtimes to avoid N+1
+        $screens = Screen::with('showtimes')->select('id', 'theater_id', 'label')->get();
 
         // Form data
         $shapedData = $this->formPresenterService->shapeData($movies, $theaters, $screens);
