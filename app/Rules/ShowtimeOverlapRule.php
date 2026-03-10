@@ -2,10 +2,15 @@
 
 namespace App\Rules;
 
+use App\Models\Movie;
+use App\Models\Screen;
+use App\Models\Theater;
 use App\Services\Showtime\ShowtimeAvailabilityService;
 use Closure;
+use Exception;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Arr;
 
 class ShowtimeOverlapRule implements ValidationRule, DataAwareRule
 {
@@ -33,6 +38,17 @@ class ShowtimeOverlapRule implements ValidationRule, DataAwareRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        // If the submitted request does not have all the necessary data
+        if(!Arr::hasAll($this->data, ['movie', 'theater', 'date', 'screen', 'time', 'subtitles', 'is_3d', 'dubbed'])){
+            return;
+        }
+        // If any of the values are missing
+        foreach($this->data as $value){
+            if(is_null($value)){
+                return;
+            }
+        }
+
         $overlapExists = $this->availabilityService->validateOverlap($this->data);
 
         // If there is overlap
