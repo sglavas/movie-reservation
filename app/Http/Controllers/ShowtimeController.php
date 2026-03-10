@@ -81,14 +81,14 @@ class ShowtimeController extends Controller
     {
         // Validate input
         $validateFormInfo = request()->validate([
-            'movie' => 'required|integer',
-            'theater' => 'required|integer',
-            'screen' => 'required|integer',
-            'date' => 'required|date',
-            'time' => ['required', 'date_format:H:i', $this->overlapRule],              // Implment custom overlap rule
-            'subtitles' => 'required|bool',
-            'is_3d' => 'required|bool',
-            'dubbed' => 'required|bool',
+            'movie' => ['bail', 'required', 'integer', 'exists:movies,id'],
+            'theater' => ['bail', 'required', 'integer', 'exists:theaters,id'],
+            'screen' => ['bail', 'required', 'integer', 'exists:screens,id'],
+            'date' => ['bail', 'required', 'date'],
+            'time' => ['bail', 'required', 'date_format:H:i', $this->overlapRule],              // Implment custom overlap rule
+            'subtitles' => ['bail', 'required', 'bool'],
+            'is_3d' => ['bail', 'required', 'bool'],
+            'dubbed' => ['bail', 'required', 'bool'],
         ]);
 
 
