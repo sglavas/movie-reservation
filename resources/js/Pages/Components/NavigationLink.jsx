@@ -13,8 +13,6 @@ function classNames(...classes) {
 }
 
 export default function NavigationLink() {
-    const {path} = usePage().props;
-    
     return(
         <div className="ml-10 flex items-baseline space-x-4">
             {navigation.map((item) => (
