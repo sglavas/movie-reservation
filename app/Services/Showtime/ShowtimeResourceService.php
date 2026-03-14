@@ -2,7 +2,7 @@
 
 namespace App\Services\Showtime;
 
-use App\Http\Resources\ShowtimeResource;
+use App\Http\Resources\Public\ShowtimeScheduleResource;
 use Illuminate\Support\Collection;
 
 class ShowtimeResourceService
@@ -13,7 +13,7 @@ class ShowtimeResourceService
     public function useResource (Collection $orderedDates): Collection
     {
         $filteredDates = $orderedDates->map(function (Collection $showtimesForDay) {
-            return ShowtimeResource::collection($showtimesForDay);
+            return ShowtimeScheduleResource::collection($showtimesForDay);
         });
 
         return $filteredDates;
