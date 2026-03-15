@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Admin\ShowtimeDetailResource;
 use App\Http\Resources\MovieResource;
 use App\Http\Resources\ScreenResource;
 use App\Models\Movie;
@@ -101,6 +102,15 @@ class ShowtimeController extends Controller
             'theaters' => $theaters,
             'timetables' => $timetableData,
             'formInfo' => $screensWithTheaters,
+        ]);
+    }
+
+    public function show(Showtime $showtime)
+    {
+        $showtimeToRender = new ShowtimeDetailResource($showtime);
+        
+        return Inertia::render('Showtimes/Show', [
+            'showtime' => $showtimeToRender,
         ]);
     }
 
