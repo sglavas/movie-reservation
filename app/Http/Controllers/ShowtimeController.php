@@ -27,6 +27,30 @@ class ShowtimeController extends Controller
         //
     }
 
+    private function getFormData(): array
+    {
+        // Select id, title, duration, description and genre from all movies
+        $movies = Movie::select('id', 'title', 'duration', 'description', 'genre')->get();
+        // Select id, name and city from all theaters
+        $theaters = Theater::select('id', 'name', 'city')->get();
+        // Select id, theater_id and label for all screens together with corresponding showtimes to avoid N+1
+        $screens = Screen::with('showtimes')->select('id', 'theater_id', 'label')->get();
+
+        // Form data
+        $shapedData = $this->formPresenterService->shapeData($movies, $theaters, $screens);
+
+        [
+            'timetableData' => $timetableData,
+            'screensWithTheaters' => $screensWithTheaters
+        ] = $shapedData;
+
+        return [
+            'theaters' => $theaters,
+            'timetableData' => $timetableData,
+            'screensWithTheaters' => $screensWithTheaters,
+        ];
+    }
+
     public function index()
     {
         // Get all screens from the database and sort them according to screen id
@@ -64,10 +88,12 @@ class ShowtimeController extends Controller
         // Form data
         $shapedData = $this->formPresenterService->shapeData($movies, $theaters, $screens);
 
+    public function create(){
         [
-            'timeTableData' => $timetableData,
-            'screensWithTheaters' => $screensWithTheaters
-        ] = $shapedData;
+            'theaters' => $theaters,
+            'timetableData' => $timetableData,
+            'screensWithTheaters' => $screensWithTheaters,
+        ] = $this->getFormData();
 
         return Inertia::render('Showtimes/Create', [
             'theaters' => $theaters,
