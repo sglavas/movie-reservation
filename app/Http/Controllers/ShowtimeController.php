@@ -77,16 +77,18 @@ class ShowtimeController extends Controller
         ]);
     }
 
-    public function create(){
-        // Select id, title, duration, description and genre from all movies
-        $movies = Movie::select('id', 'title', 'duration', 'description', 'genre')->get();
-        // Select id, name and city from all theaters
-        $theaters = Theater::select('id', 'name', 'city')->get();
-        // Select id, theater_id and label for all screens together with corresponding showtimes to avoid N+1
-        $screens = Screen::with('showtimes')->select('id', 'theater_id', 'label')->get();
+    public function edit()
+    {
+        [
+            'theaters' => $theaters,
+            'screensWithTheaters' => $screensWithTheaters,
+        ] = $this->getFormData();
 
-        // Form data
-        $shapedData = $this->formPresenterService->shapeData($movies, $theaters, $screens);
+        return Inertia::render('Showtimes/Edit', [
+            'theaters' => $theaters,
+            'formInfo' => $screensWithTheaters,
+        ]);
+    }
 
     public function create(){
         [
