@@ -7,6 +7,7 @@ import { useForm } from '@inertiajs/react';
 import { Link } from '@inertiajs/react'
 import { useState } from "react"
 import ShowtimeTimetable from "./Components/ShowtimeTimetable"
+import Button from "../Components/Button"
 
 export default function Create() {
     const { theaters, formInfo } = usePage().props;
@@ -63,20 +64,20 @@ export default function Create() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
-                    <Link
-                        type="button"
-                        className="text-sm/6 font-semibold text-white"
-                        href='/'
+                    <Button as={Link}
+                            color='red'
+                            type='button'
+                            href='/'
                     >
                         Cancel
-                    </Link>
-                    <button
-                        type="submit"
-                        className="rounded-md bg-indigo-600 hover:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        disabled={processing}
+                    </Button>
+                    <Button as='button'
+                            color='indigo'
+                            type='submit'
+                            disabled={processing}
                     >
                         Save
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>
