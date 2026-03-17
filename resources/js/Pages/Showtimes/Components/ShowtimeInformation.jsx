@@ -29,7 +29,7 @@ export default function ShowtimeInformation ({data, setData}){
 
     return(
             <div className="border-b border-white/10 pb-12">
-                <h2 className="text-base/7 font-semibold text-white">Showtime Information</h2>
+                <h2 className="text-xl font-bold my-10 text-white">Showtime Information</h2>
 
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 

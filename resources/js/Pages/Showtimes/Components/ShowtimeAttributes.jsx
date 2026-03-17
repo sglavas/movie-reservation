@@ -3,7 +3,7 @@ export default function ShowtimeAttributes({data, setData}){
             <div className="border-b border-white/10 pb-12">
                 <div className="mt-10 space-y-10">
                     <fieldset>
-                    <legend className="text-sm/6 font-semibold text-white">Showtime Attributes</legend>
+                    <legend className="text-xl font-bold my-10 text-white">Showtime Attributes</legend>
                     <div className="mt-6 space-y-6">
                         <div className="flex gap-3">
                             <div className="flex h-6 shrink-0 items-center">
