@@ -49,7 +49,6 @@ export default function Create() {
             <ShowtimeTimetable />
 
             <form onSubmit={submit} action="/showtimes">
-            <div className="text-2xl font-bold my-10">Create Showtime</div>
                 <div className="space-y-12">
                     <ShowtimeInformation data={data} 
                                          setData={setData}
