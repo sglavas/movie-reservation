@@ -33,4 +33,14 @@ class ShowtimeObserver
 
     }
 
+    public function updating(Showtime $showtime): void
+    {
+        // Get the Showtime with the calculated end time
+        $calculatedEndTime = $this->calculatingService->calculateEndTime($showtime);
+
+        // Mutate the original Showtime model
+        $showtime->end_time = $calculatedEndTime->end_time;
+
+    }
+
 }
