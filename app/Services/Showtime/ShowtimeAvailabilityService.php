@@ -3,6 +3,7 @@
 namespace App\Services\Showtime;
 
 use App\Models\Showtime;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class ShowtimeAvailabilityService
@@ -20,7 +21,7 @@ class ShowtimeAvailabilityService
      * @param array $data {movie: int, screen: int, date: string, time: string, subtitles: bool, is_3d: bool, dubbed: bool}
      * @return boolean True if there is overlap, false if not.
      */
-    public function validateOverlap(array $data): bool
+    public function validateOverlap(array $data, ?int $id = null): bool
     {
         [
             'movie' => $movie,
@@ -48,15 +49,17 @@ class ShowtimeAvailabilityService
         // Calculate end time
         $calculatedShowtime = $this->calculatingService->calculateEndTime($showtimeModel);
 
-        // Determine if showtime overlap exists
         $overlapExists = DB::table('showtimes')
-                        ->where('screen_id', $screen)
-                        ->where([
-                            ['start_time', '<', $calculatedShowtime->end_time->format('Y-m-d H:i:s')],
-                            ['end_time', '>', $startDateTime],
-                        ])
-                        ->exists();
-                        
+                ->where('screen_id', $screen)
+                ->where([
+                    ['start_time', '<', $calculatedShowtime->end_time->format('Y-m-d H:i:s')],
+                    ['end_time', '>', $startDateTime],
+                ])
+                ->when($id, function (Builder $query, int $id) {                       // Exclude the current showtime if the showtime is being updated
+                    $query->where('id', '!=', $id);
+                })
+                ->exists();
+
         return $overlapExists;
     }
 }
