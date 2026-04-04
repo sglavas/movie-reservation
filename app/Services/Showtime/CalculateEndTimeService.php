@@ -15,20 +15,18 @@ class CalculateEndTimeService
      */
     public function calculateEndTime(Showtime $showtime): Showtime
     {
-        if(empty($showtime->end_time)){
-            
-            $calculatedEndTime = clone $showtime;
+        $calculatedEndTime = clone $showtime;
 
-            // Get the movie this showtime belongs to
-            $movie = $calculatedEndTime->movie;
+        // Get the movie this showtime belongs to
+        $movie = $calculatedEndTime->movie;
 
-            // Add a 30-minute buffer (15 mins for cleaning, 15 for trailers)
-            $timeToAdd = $movie?->duration + 30;
+        // Add a 30-minute buffer (15 mins for cleaning, 15 for trailers)
+        $timeToAdd = $movie?->duration + 30;
 
-            $endTime = Carbon::parse($calculatedEndTime->start_time)->addMinutes($timeToAdd);
+        $endTime = Carbon::parse($calculatedEndTime->start_time)->addMinutes($timeToAdd);
 
-            $calculatedEndTime->end_time = $endTime;
-        }
+        $calculatedEndTime->end_time = $endTime;
+        
         return $calculatedEndTime;
     }
 }
