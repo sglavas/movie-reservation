@@ -1,18 +1,18 @@
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { usePage } from '@inertiajs/react'
-import { useEffect, createContext } from 'react';
+import { useEffect, useRef } from 'react';
 
-export const FormContext = createContext(); 
 
 export default function ShowtimeInformation ({data, setData}){
     // Implement usePage props to avoid prop drilling
     const { theaters, errors, formInfo} = usePage().props;
-    // const {movies, theaters, screens, errors, formInfo} = usePage().props;
 
     const { movies, screens } = formInfo;
 
     // Filter the screens when a new theater is selected
     const selectedScreens = screens.filter(screen => screen['theater_id'] == data.theater);
+
+    const isFirstRender = useRef(true);
 
     // Run when another theater is selected
     useEffect(() => {
@@ -22,10 +22,14 @@ export default function ShowtimeInformation ({data, setData}){
             setData('screen', '');
             return;
         }
-        // Set data.screen to the ID of the first one on the list
-        setData('screen', selectedScreens[0].id)
-    }, [data.theater])
 
+        // Set the screen to the first one when the theater input changes on subsequent renders
+        if(!isFirstRender.current){
+            setData('screen', selectedScreens[0].id)
+        }
+
+        isFirstRender.current = false;
+    }, [data.theater])
 
     return(
             <div className="border-b border-white/10 pb-12">
