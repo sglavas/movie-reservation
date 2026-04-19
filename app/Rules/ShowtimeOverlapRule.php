@@ -2,12 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\Movie;
-use App\Models\Screen;
-use App\Models\Theater;
-use App\Services\Showtime\ShowtimeAvailabilityService;
 use Closure;
-use Exception;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Arr;
@@ -15,7 +10,8 @@ use Illuminate\Support\Arr;
 class ShowtimeOverlapRule implements ValidationRule, DataAwareRule
 {
     public function __construct(
-        protected ShowtimeAvailabilityService $availabilityService,
+        protected $id,
+        protected $availabilityService,
     )
     {
         //
@@ -49,7 +45,7 @@ class ShowtimeOverlapRule implements ValidationRule, DataAwareRule
             }
         }
 
-        $overlapExists = $this->availabilityService->validateOverlap($this->data);
+        $overlapExists = $this->availabilityService->validateOverlap($this->data, $this->id);
 
         // If there is overlap
         if($overlapExists){

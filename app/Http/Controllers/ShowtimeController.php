@@ -12,15 +12,37 @@ use App\Models\Theater;
 use App\Rules\ShowtimeOverlapRule;
 use App\Services\Showtime\CalculateEndTimeService;
 use App\Services\Showtime\MovieShowtimeScheduleView;
+use App\Services\Showtime\ShowtimeAvailabilityService;
 use App\Services\Showtime\ShowtimeFormDataView;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+
+/**
+ * I used a custom validation rule for overlap detection. Since the rule requires the current showtime ID during updates,
+ * I instantiate it at runtime rather than injecting it via the controller constructor.
+ * 
+ * The overlap rule requires a showtime ID on Update or null on Store.
+ * 
+ * Normally, I would inject the dependencies into the class via the constructor like this:
+ * 
+ *     public function __construct(
+ *       protected CalculateEndTimeService $calculatingService,
+ *       protected MovieShowtimeScheduleView $presenterService,
+ *       protected ShowtimeFormDataView $formPresenterService,
+ *       protected ShowtimeOverlapRule $overlapRule,
+ *   )
+ *   {
+ *       //
+ *   }
+ * 
+ * Since the constructor runs on controller instantiation, I had to use the app() helper to manually instantiate the service
+ * and resolve the dependency at runtime instead of at controller construction time.
+ */
 
 class ShowtimeController extends Controller
 {
     public function __construct(
         protected CalculateEndTimeService $calculatingService,
-        protected ShowtimeOverlapRule $overlapRule,
         protected MovieShowtimeScheduleView $presenterService,
         protected ShowtimeFormDataView $formPresenterService,
     )
@@ -36,7 +58,7 @@ class ShowtimeController extends Controller
         $theaters = Theater::select('id', 'name', 'city')->get();
         // Select id, theater_id and label for all screens together with corresponding showtimes to avoid N+1
         $screens = Screen::with('showtimes')->select('id', 'theater_id', 'label')->get();
-
+        
         // Form data
         $shapedData = $this->formPresenterService->shapeData($movies, $theaters, $screens);
 
@@ -78,17 +100,62 @@ class ShowtimeController extends Controller
         ]);
     }
 
-    public function edit()
+    public function edit(Showtime $showtime)
     {
         [
             'theaters' => $theaters,
             'screensWithTheaters' => $screensWithTheaters,
         ] = $this->getFormData();
 
+        $showtimeToRender = new ShowtimeDetailResource($showtime);
+
         return Inertia::render('Showtimes/Edit', [
             'theaters' => $theaters,
             'formInfo' => $screensWithTheaters,
+            'showtime' => $showtimeToRender,
         ]);
+    }
+
+    public function update (Showtime $showtime)
+    {
+        // Validate input
+        $validateFormInfo = request()->validate([
+            'movie' => ['bail', 'required', 'integer', 'exists:movies,id'],
+            'theater' => ['bail', 'required', 'integer', 'exists:theaters,id'],
+            'screen' => ['bail', 'required', 'integer', 'exists:screens,id'],
+            'date' => ['bail', 'required', 'date'],
+            'time' => ['bail', 'required', 'date_format:H:i', new ShowtimeOverlapRule($showtime->id, app(ShowtimeAvailabilityService::class))],              // Implment custom overlap rule
+            'subtitles' => ['bail', 'required', 'bool'],
+            'is_3d' => ['bail', 'required', 'bool'],
+            'dubbed' => ['bail', 'required', 'bool'],
+        ]);
+
+        [
+            'movie' => $movie,
+            'screen' => $screen,
+            'date' => $date,
+            'time' => $time,
+            'subtitles' => $subtitles,
+            'is_3d' => $is_3d,
+            'dubbed' => $dubbed
+        ] = $validateFormInfo;
+
+        $dateTime = date('Y-m-d H:i:s', strtotime("$date $time"));
+
+        $showtime->updateOrFail([
+            'movie_id' => $movie,
+            'screen_id' => $screen,
+            'start_time' => $dateTime,
+            'subtitles' => $subtitles,
+            'is_3d' => $is_3d,
+            'dubbed' => $dubbed,
+        ]);
+
+        // Flash data
+        Inertia::flash('success', 'Showtime updated successfully');
+
+        // Redirect
+        return redirect("/showtimes/$showtime->id");
     }
 
     public function create(){
