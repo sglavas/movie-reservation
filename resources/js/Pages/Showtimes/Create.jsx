@@ -56,6 +56,9 @@ export default function Create() {
     return(
         <div>
             <div className="text-2xl font-bold mb-10">Showtimes Timetable</div>
+            {/**
+             * Display destroy success message at the top of the form
+             */}
             <div className={`${flash.type === 'delete' && isVisible ? '' : 'hidden'}`}>
                 <SuccessMessage message={flash.success} />
             </div>
@@ -71,6 +74,9 @@ export default function Create() {
                                         setData={setData} 
                     />
                 </div>
+                {/**
+                 * Display store and update success messages at the bottom of the form
+                */}
                 <div className={`${flash.type !== 'delete' && isVisible ? '' : 'hidden'}`}>
                     <SuccessMessage message={flash.success} />
                 </div>
