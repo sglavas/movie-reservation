@@ -152,7 +152,10 @@ class ShowtimeController extends Controller
         ]);
 
         // Flash data
-        Inertia::flash('success', 'Showtime updated successfully');
+        Inertia::flash([
+            'success', 'Showtime updated successfully',
+            'type' => 'update'
+        ]);
 
         // Redirect
         return redirect("/showtimes/$showtime->id");
@@ -223,7 +226,10 @@ class ShowtimeController extends Controller
         });
 
         // Flash data
-        Inertia::flash('success', 'Showtime created successfully');
+        Inertia::flash([
+            'success' => 'Showtime created successfully',
+            'type' =>  'create',
+        ]);
 
         // Redirect
         return back();
