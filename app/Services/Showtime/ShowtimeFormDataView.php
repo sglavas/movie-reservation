@@ -222,7 +222,7 @@ class ShowtimeFormDataView
         $screensWithTheaters = $this->shapeShowtimeInformation($screens, $movieWithId, $theaterWithId);
 
         return [
-            'timeTableData' => $timetableData,
+            'timetableData' => $timetableData,
             'screensWithTheaters' => $screensWithTheaters,
         ];
            
