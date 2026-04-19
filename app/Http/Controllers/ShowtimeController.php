@@ -190,7 +190,7 @@ class ShowtimeController extends Controller
             'theater' => ['bail', 'required', 'integer', 'exists:theaters,id'],
             'screen' => ['bail', 'required', 'integer', 'exists:screens,id'],
             'date' => ['bail', 'required', 'date'],
-            'time' => ['bail', 'required', 'date_format:H:i', $this->overlapRule],              // Implment custom overlap rule
+            'time' => ['bail', 'required', 'date_format:H:i', new ShowtimeOverlapRule(null, app(ShowtimeAvailabilityService::class))],              // Implment custom overlap rule
             'subtitles' => ['bail', 'required', 'bool'],
             'is_3d' => ['bail', 'required', 'bool'],
             'dubbed' => ['bail', 'required', 'bool'],
