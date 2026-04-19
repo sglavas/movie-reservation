@@ -5,12 +5,13 @@ import SuccessMessage from "../Components/SuccessMessage"
 import { usePage } from "@inertiajs/react"
 import { useForm } from '@inertiajs/react';
 import { Link } from '@inertiajs/react'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ShowtimeTimetable from "./Components/ShowtimeTimetable"
 import Button from "../Components/Button"
 
 export default function Create() {
     const { theaters, formInfo } = usePage().props;
+    const { flash } = usePage();
     const [ isVisible, setIsVisible ] = useState(false);
 
     const { movies, screens } = formInfo
@@ -28,17 +29,25 @@ export default function Create() {
         dubbed: false
     })
 
+    // Listen for success flash message
+    useEffect(() => {
+        if(flash.success){
+            // If a showtime was created successfully, display success message for 5 seconds
+            setIsVisible(true);
+
+            setTimeout(() => {
+                setIsVisible(false)
+            }, 5000);
+        }
+    }, [flash.success]);
+
+
     const submit = (e) => {
         e.preventDefault()
         post('/showtimes', {
             preserveScroll: true,
             onSuccess: (message) => {
                 reset();
-                setIsVisible(true);
-
-                setTimeout(() => {
-                    setIsVisible(false)
-                }, 5000);
             },
         });
 
@@ -47,6 +56,9 @@ export default function Create() {
     return(
         <div>
             <div className="text-2xl font-bold mb-10">Showtimes Timetable</div>
+            <div className={`${flash.type === 'delete' && isVisible ? '' : 'hidden'}`}>
+                <SuccessMessage message={flash.success} />
+            </div>
             <ShowtimeTimetable />
 
             <form onSubmit={submit} action="/showtimes">
@@ -59,8 +71,8 @@ export default function Create() {
                                         setData={setData} 
                     />
                 </div>
-                <div className={`${isVisible ? '' : 'hidden'}`}>
-                    <SuccessMessage message={'A showtime has been created.'} />
+                <div className={`${flash.type !== 'delete' && isVisible ? '' : 'hidden'}`}>
+                    <SuccessMessage message={flash.success} />
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6">
