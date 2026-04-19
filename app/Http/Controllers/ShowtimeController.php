@@ -234,4 +234,16 @@ class ShowtimeController extends Controller
         // Redirect
         return back();
     }
+
+    public function destroy(Showtime $showtime)
+    {
+        $showtime->delete();
+
+        Inertia::flash([
+            'success' => 'Showtime deleted successfully',
+            'type' => 'delete'
+        ]);
+
+        return redirect('/showtimes/create');
+    }
 }
