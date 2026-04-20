@@ -17,7 +17,7 @@ export default function Show({showtime}){
     }
 
     useEffect(() => {
-        if(flash.success === 'Showtime updated successfully'){
+        if(flash.type === 'update'){
             setIsVisible(true);
     
             setTimeout(() => {
