@@ -153,7 +153,7 @@ class ShowtimeController extends Controller
 
         // Flash data
         Inertia::flash([
-            'success', 'Showtime updated successfully',
+            'success' => 'Showtime updated successfully',
             'type' => 'update'
         ]);
 
