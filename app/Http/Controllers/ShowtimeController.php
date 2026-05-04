@@ -26,14 +26,8 @@ use Inertia\Inertia;
  * Normally, I would inject the dependencies into the class via the constructor like this:
  * 
  *     public function __construct(
- *       protected CalculateEndTimeService $calculatingService,
- *       protected MovieShowtimeScheduleView $presenterService,
- *       protected ShowtimeFormDataView $formPresenterService,
  *       protected ShowtimeOverlapRule $overlapRule,
  *   )
- *   {
- *       //
- *   }
  * 
  * Since the constructor runs on controller instantiation, I had to use the app() helper to manually instantiate the service
  * and resolve the dependency at runtime instead of at controller construction time.
