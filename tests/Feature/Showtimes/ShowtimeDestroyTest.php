@@ -6,8 +6,6 @@ use App\Models\Movie;
 use App\Models\Screen;
 use App\Models\Showtime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Override;
 use Tests\TestCase;
 
 class ShowtimeDestroyTest extends TestCase
@@ -41,19 +39,6 @@ class ShowtimeDestroyTest extends TestCase
         ])->create();
     }
 
-    // private function generateExpectedData(): array
-    // {
-    //     return [
-    //         'id' => $this->showtime->id,
-    //         'movie_id' => $movie->id,
-    //         'screen_id' => $screen->id,
-    //         'start_time' => $startTime,
-    //         'subtitles' => $subtitles,
-    //         'is_3d' => $is_3d,
-    //         'dubbed' => $dubbed,
-    //     ];
-    // }
-
     private function submitDestroyAndAssertSuccess(array $expectedDbData): void
     {
         /* ACT */
@@ -61,21 +46,37 @@ class ShowtimeDestroyTest extends TestCase
         $response = $this->from("/showtimes/{$this->showtime->id}")
                          ->delete("/showtimes/{$this->showtime->id}");
 
-        // dd($response);
         /* ASSERT */
         // Assert that the showtime was deleted
-        $this->assertDatabaseHas('showtimes', $expectedDbData[0]);
+        $this->assertDatabaseMissing('showtimes', $expectedDbData);
         // Assert redirect
         $response->assertRedirect('/showtimes/create');
         // Assert success flash message
-        // $response->assertSessionHas('inertia.flash_data.success', 'Showtime updated successfully');
+        $response->assertSessionHas('inertia.flash_data.success', 'Showtime deleted successfully');
 
+    }
+
+    private function submitDestroyAndAssertFailure(int $invalidId): void
+    {
+        /* ACT */
+        // Submit a DELETE request from /showtimes/{showtime}
+        $response = $this->from("/showtimes/{$invalidId}")
+                         ->delete("/showtimes/{$invalidId}");
+
+        /* ASSERT */
+        // Assert 404 error
+        $response->assertNotFound();
+        // Assert that the showtime still exists
+        $this->assertDatabaseHas('showtimes', ['id' => $this->showtime->id]);
     }
 
     public function test_it_deletes_a_showtime(): void
     {
-        dd(Showtime::find(1)->select('id', 'movie_id', 'screen_id', 'start_time')->get()->toArray());
-        $this->submitDestroyAndAssertSuccess(Showtime::find(1)->select('id', 'movie_id', 'screen_id', 'start_time')->get()->toArray());
+        $this->submitDestroyAndAssertSuccess($this->showtime->only(['id', 'movie_id', 'screen_id', 'start_time']));
     }
 
+    public function test_it_returns_404_when_deleting_non_existing_showtime(): void
+    {
+        $this->submitDestroyAndAssertFailure(500);
+    }
 }
