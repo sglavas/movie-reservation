@@ -1,4 +1,4 @@
-import connectWithDash from "../../../utils/showtimeHelpers";
+import { connectWithDash } from "../../../utils/showtimeHelpers";
 import { usePage } from "@inertiajs/react";
 
 export default function ShowtimeGrid ({showtimes, movie}){

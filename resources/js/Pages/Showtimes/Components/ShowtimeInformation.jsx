@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { usePage } from '@inertiajs/react'
 import { useEffect, useRef } from 'react';
-
+import ShowtimeFormSelect from './ShowtimeFormSelect.jsx';
 
 export default function ShowtimeInformation ({data, setData}){
     // Implement usePage props to avoid prop drilling
@@ -42,19 +42,12 @@ export default function ShowtimeInformation ({data, setData}){
                             Movie
                         </label>
                             <div className="mt-2 grid grid-cols-1">
-                                <select
-                                    id="movie"
-                                    name="movie"
-                                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                                    value={data.movie}
-                                    onChange={e => setData('movie', e.target.value)}
-                                    required
-                                >
-                                    {/* Map over the movies array and display the movie titles */}
-                                    {movies.map(movie => (
-                                        <option value={movie.id} key={movie.id}>{movie.title}</option>
-                                    ))}
-                                </select>
+                                <ShowtimeFormSelect 
+                                    infoValue={data.movie}
+                                    selectArray={movies}
+                                    setData={setData}
+                                    field='movie'
+                                />
                                 <ChevronDownIcon
                                 aria-hidden="true"
                                 className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4"
@@ -67,20 +60,12 @@ export default function ShowtimeInformation ({data, setData}){
                             Theater
                         </label>
                         <div className="mt-2 grid grid-cols-1">
-                            <select
-                                id="theater"
-                                name="theater"
-                                value={data.theater}
-                                onChange={e => setData('theater', e.target.value)}
-                                autoComplete="theater-name"
-                                className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                                required
-                            >
-                                {/* Map over the theaters array and display the theater name and the city where it is located */}
-                                {theaters.map(theater =>(
-                                    <option value={theater.id} key={theater.id}>{theater.name}, {theater.city}</option>
-                                ))}
-                            </select>
+                            <ShowtimeFormSelect 
+                                infoValue={data.theater}
+                                selectArray={theaters}
+                                setData={setData}
+                                field='theater'
+                            />
                             <ChevronDownIcon
                             aria-hidden="true"
                             className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4"
@@ -93,24 +78,13 @@ export default function ShowtimeInformation ({data, setData}){
                             Screen
                         </label>
                         <div className="mt-2 grid grid-cols-1">
-                            <select
-                                id="screen"
-                                name="screen"
-                                value={data.screen}
-                                autoComplete="screen-name"
-                                onChange={e => setData('screen', e.target.value)}
-                                className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                                required
-                            >
-                                {/* Map over the screens array and display the screen id corresponding to the selected theater */}
-                                {
-                                    selectedScreens.map(screen => {
-                                            return(
-                                                <option value={screen.id} key={screen.id}>Screen {screen.label}</option>
-                                            )
-                                    })
-                                }
-                            </select>
+                            <ShowtimeFormSelect 
+                                infoValue={data.screen}
+                                selectArray={selectedScreens}
+                                setData={setData}
+                                field='screen'
+                            />
+
                             <ChevronDownIcon
                             aria-hidden="true"
                             className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4"
