@@ -1,13 +1,6 @@
 import { usePage } from "@inertiajs/react";
 import { Link } from "@inertiajs/react";
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Contact', href: '/contact' },
-  { name: 'Showtimes ', href: '/showtimes' },
-]
-
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }

@@ -45,7 +45,9 @@ export default function Layout(props) {
                     <h1 className='text-white'>ANDROMEDA CINEMA</h1>
                 </div>
                 <div className="hidden md:block">
-                    <NavigationLink />
+                    <NavigationLink 
+                      navigation={[{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact' }, { name: 'Showtimes', href: '/showtimes' }]}
+                    />
                 </div>
               </div>
               <div className="hidden md:block">
