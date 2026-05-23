@@ -20,15 +20,7 @@ const userNavigation = [
 
 export default function Layout(props) {
   return (
-    <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+    <div>
       <div className="min-h-full bg-slate-900 text-white">
         <Disclosure as="nav" className="relative bg-gray-800">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
