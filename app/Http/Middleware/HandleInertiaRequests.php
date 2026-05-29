@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Movie;
+use App\Http\Resources\Public\UserAuthResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,6 +38,9 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+            'auth' => [
+                'user' => $request->user() ? UserAuthResource::make($request->user()) : null,
+            ]
             //
         ];
     }
