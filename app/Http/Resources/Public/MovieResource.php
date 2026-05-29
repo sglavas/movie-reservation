@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Public;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ScreenResource extends JsonResource
+class MovieResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,12 @@ class ScreenResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return[
+        return [
             'id' => $this->id,
-            'theater_id' => $this->theater_id,
-            'label' => $this->label,
+            'title' => $this->title,
+            'duration' => $this->duration,
+            'description' => $this->description,
+            'genre' => $this->genre,
         ];
     }
 }

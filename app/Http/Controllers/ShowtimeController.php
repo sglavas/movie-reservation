@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Admin\ShowtimeDetailResource;
-use App\Http\Resources\MovieResource;
-use App\Http\Resources\ScreenResource;
+use App\Http\Resources\Public\MovieResource;
+use App\Http\Resources\Public\ScreenResource;
 use App\Models\Movie;
 use App\Models\Screen;
 use App\Models\Showtime;
