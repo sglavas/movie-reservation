@@ -3,13 +3,12 @@ import SuccessMessage from "../Components/SuccessMessage"
 import { usePage } from "@inertiajs/react"
 import { useForm } from '@inertiajs/react';
 import { Link } from '@inertiajs/react'
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Button from "../Components/Button"
 import FormInput from "../Components/FormInput";
 
 export default function Login() {
     const { errors } = usePage().props;
-    const [ isVisible, setIsVisible ] = useState(false);
 
     // Implement Inertia useForm hook
     const { post, data, setData, reset, processing } = useForm({
@@ -19,12 +18,7 @@ export default function Login() {
 
     const submit = (e) => {
         e.preventDefault()
-        post('/login', {
-            preserveScroll: true,
-            onSuccess: (message) => {
-                reset();
-            },
-        });
+        post('/login');
     }
 
     return(
