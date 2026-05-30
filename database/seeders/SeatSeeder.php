@@ -22,7 +22,6 @@ class SeatSeeder extends Seeder
     {
         $fileName = database_path('seeds/csvs/seats.csv');
 
-        // $data = csvToArray($fileName);
         $data = $this->extractionService->extractData($fileName);
 
         $this->command->info("Creating sample seats...");
