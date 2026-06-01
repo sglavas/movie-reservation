@@ -1,4 +1,4 @@
-import Layout from "../Components/Layout"
+import Layout from "../Layout/Layout"
 import Button from "../Components/Button";
 import { Link } from "@inertiajs/react";
 import ShowtimeDetails from "./Components/ShowtimeDetails";

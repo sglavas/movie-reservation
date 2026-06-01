@@ -1,4 +1,4 @@
-import Layout from "../Components/Layout"
+import Layout from "../Layout/Layout"
 import SuccessMessage from "../Components/SuccessMessage"
 import { usePage } from "@inertiajs/react"
 import { useForm } from '@inertiajs/react';

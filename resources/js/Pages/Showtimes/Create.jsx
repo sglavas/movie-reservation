@@ -1,4 +1,4 @@
-import Layout from "../Components/Layout"
+import Layout from "../Layout/Layout"
 import ShowtimeInformation from "./Components/ShowtimeInformation"
 import ShowtimeAttributes from "./Components/ShowtimeAttributes"
 import SuccessMessage from "../Components/SuccessMessage"

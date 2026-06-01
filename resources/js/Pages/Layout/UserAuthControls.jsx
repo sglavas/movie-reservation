@@ -1,6 +1,6 @@
 import { useForm, usePage } from "@inertiajs/react";
 import NavigationLink from "./NavigationLink";
-import Button from "./Button";
+import Button from "../Components/Button";
 
 export default function UserAuthControls() {
     const { auth } = usePage().props;

@@ -1,4 +1,4 @@
-import Layout from "./Components/Layout"
+import Layout from "./Layout/Layout"
 
 export default function HomePage() {
     return(

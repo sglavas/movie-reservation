@@ -1,9 +1,10 @@
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { BellIcon } from '@heroicons/react/24/outline'
 import NavigationLink from './NavigationLink'
-import { Link } from '@inertiajs/react'
-import Button from './Button'
+import { Link, usePage } from '@inertiajs/react'
+import Button from '../Components/Button'
 import UserAuthControls from './UserAuthControls'
+import AdminControls from './AdminControls'
 
 const user = {
   name: 'Tom Cook',
@@ -20,6 +21,7 @@ const userNavigation = [
 
 
 export default function Layout(props) {
+  console.log(usePage());
   return (
     <div>
       <div className="min-h-full bg-slate-900 text-white">
@@ -58,12 +60,7 @@ export default function Layout(props) {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div className='flex justify-between items-center'>
               <h1 className='font-bold text-2xl'>{props.slot}</h1>
-              <Button as={Link}
-                      color='gray'
-                      href="/showtimes/create"
-              >
-                Create Showtime
-              </Button>
+              <AdminControls />
             </div>
           </div>
         </header>

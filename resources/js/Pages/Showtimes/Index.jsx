@@ -1,4 +1,4 @@
-import Layout from "../Components/Layout"
+import Layout from "../Layout/Layout"
 import ShowtimeGrid from "./Components/ShowtimeGrid"
 import ShowtimeRow from "./Components/ShowtimeRow";
 
