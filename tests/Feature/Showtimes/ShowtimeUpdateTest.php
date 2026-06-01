@@ -5,6 +5,7 @@ namespace Tests\Feature\Showtimes;
 use App\Models\Movie;
 use App\Models\Screen;
 use App\Models\Showtime;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -16,6 +17,7 @@ class ShowtimeUpdateTest extends TestCase
     private Movie $movie;
     private Screen $screen;
     private Showtime $showtime;
+    private User $admin;
 
     protected function setUp(): void
     {
@@ -26,6 +28,12 @@ class ShowtimeUpdateTest extends TestCase
         $this->screen = Screen::factory()->create();
 
         $this->showtime = $this->createShowtime('2026-02-17 13:30:00');
+
+        $this->admin = User::factory()->create([
+            'is_admin' => true,
+        ]);
+
+        $this->actingAs($this->admin);
     }
 
     private function createShowtime(string $startTime): Showtime

@@ -5,6 +5,7 @@ namespace Tests\Feature\Showtimes;
 use App\Models\Movie;
 use App\Models\Screen;
 use App\Models\Showtime;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -19,6 +20,7 @@ class ShowtimeStoreTest extends TestCase
     private Movie $movie;
     private Collection $screens;
     private array $request;
+    private User $admin;
     /**
      * A basic feature test example.
      */
@@ -37,6 +39,10 @@ class ShowtimeStoreTest extends TestCase
 
         $screen = $this->screens->first();
 
+        $this->admin = User::factory()->create([
+            'is_admin' => true,
+        ]);
+
         // Perfect base request
         $this->request = [
                             'movie' => $this->movie->id,
@@ -49,6 +55,7 @@ class ShowtimeStoreTest extends TestCase
                             'dubbed' => 0,          
         ];
         
+        $this->actingAs($this->admin);
     }
 
     private function createFirstShowtime(Movie $movie, Screen $screen): void
