@@ -17,10 +17,10 @@ class RegisteredUserController extends Controller
     public function store()
     {
         $validatedFormInfo = request()->validate([
-            'first_name' => ['required'],
-            'last_name' => ['required'],
+            'first_name' => ['required', 'min:2', 'max:64'],
+            'last_name' => ['required', 'min:2', 'max:64'],
             'email' => ['required', 'email', 'unique:users', 'max:254'],
-            'password' => ['required', 'confirmed'],
+            'password' => ['required', 'confirmed', 'min:6', 'max:64'],
         ]);
 
         $user = DB::transaction(function() use($validatedFormInfo){
