@@ -29,4 +29,4 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->middleware
 
 Route::get('/login', [SessionController::class, 'create'])->name('login')->middleware(['guest']);
 Route::post('/login', [SessionController::class, 'store'])->middleware(['guest']);
-Route::post('/logout', [SessionController::class, 'destroy']);
+Route::post('/logout', [SessionController::class, 'destroy'])->middleware(['auth']);
