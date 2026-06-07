@@ -24,9 +24,9 @@ Route::patch('/showtimes/{showtime}', [ShowtimeController::class, 'update'])->mi
 Route::delete('/showtimes/{showtime}', [ShowtimeController::class, 'destroy'])->middleware(['auth', 'can:access-admin-area']);
 Route::post('/showtimes', [ShowtimeController::class, 'store'])->middleware(['auth', 'can:access-admin-area']);
 
-Route::get('/register', [RegisteredUserController::class, 'create']);
-Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::get('/register', [RegisteredUserController::class, 'create'])->middleware(['guest']);
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware(['guest']);
 
-Route::get('/login', [SessionController::class, 'create'])->name('login');
-Route::post('/login', [SessionController::class, 'store']);
+Route::get('/login', [SessionController::class, 'create'])->name('login')->middleware(['guest']);
+Route::post('/login', [SessionController::class, 'store'])->middleware(['guest']);
 Route::post('/logout', [SessionController::class, 'destroy']);
