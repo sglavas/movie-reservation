@@ -87,4 +87,35 @@ class ShowtimeDestroyTest extends TestCase
     {
         $this->submitDestroyAndAssertFailure(500);
     }
+
+    public function test_guest_cannot_delete_showtime(): void
+    {
+        /* ARRANGE */
+        $this->actingAsGuest();
+
+        /* ACT */
+        // Submit a DELETE request from /showtimes/{showtime}
+        $response = $this->from("/showtimes/{$this->showtime->id}")
+                         ->delete("/showtimes/{$this->showtime->id}");
+
+        /* ASSERT */
+        $response->assertRedirect('/login');
+        $this->assertDatabaseHas('showtimes', ['id' => $this->showtime->id]);
+    }
+
+    public function test_regular_user_cannot_delete_showtime(): void
+    {
+        /* ARRANGE */
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        /* ACT */
+        // Submit a DELETE request from /showtimes/{showtime}
+        $response = $this->from("/showtimes/{$this->showtime->id}")
+                         ->delete("/showtimes/{$this->showtime->id}");
+
+        /* ASSERT */
+        $response->assertForbidden();
+        $this->assertDatabaseHas('showtimes', ['id' => $this->showtime->id]);
+    }
 }
