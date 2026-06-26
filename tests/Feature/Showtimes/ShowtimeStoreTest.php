@@ -272,4 +272,40 @@ class ShowtimeStoreTest extends TestCase
             'missing dubbed' => ['dubbed', null],
         ];
     }
+
+    public function test_guest_cannot_create_showtime(): void
+    {
+        /* ARRANGE */
+        $this->actingAsGuest();
+
+        /* ACT */
+        // Create a showtime by submitting a POST request from /showtimes/create
+        $response = $this->from('/showtimes/create')
+                         ->post('/showtimes', $this->request);
+
+        /* ASSERT */
+        // Assert redirect
+        $response->assertRedirect('/login');
+        // Assert database contains no showtimes
+        $this->assertEmpty(Showtime::all());
+    }
+
+    public function test_regular_user_cannot_create_showtime(): void
+    {
+        /* ARRANGE */
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        /* ACT */
+        // Create a showtime by submitting a POST request from /showtimes/create
+        $response = $this->from('/showtimes/create')
+                         ->post('/showtimes', $this->request);
+
+        /* ASSERT */
+        // Assert redirect
+        $response->assertForbidden();
+        // Assert database contains no showtimes
+        $this->assertEmpty(Showtime::all());
+    }
+
 }
