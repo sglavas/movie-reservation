@@ -333,4 +333,45 @@ class ShowtimeUpdateTest extends TestCase
             'missing dubbed' => ['dubbed', null],
         ];
     }
+
+    public function test_guest_cannot_update_showtime(): void
+    {
+        /* ARRANGE */
+        $this->actingAsGuest();
+        $requestData = $this->generateRequestData($this->movie, $this->screen,'2026-02-17', '14:00');
+        $originalShowtime = $this->generateDatabaseData($this->movie, $this->screen, '2026-02-17 13:30:00');
+        $updatedShowtime = $this->generateDatabaseData($this->movie, $this->screen, '2026-02-17 14:00:00');
+
+        /* ACT */
+        // Submit a PATCH request from /showtimes/:id/edit
+        $response = $this->from("/showtimes/{$this->showtime->id}/edit")
+                         ->patch("/showtimes/{$this->showtime->id}", $requestData);
+
+        /* ASSERT */
+        // Assert that the showtime was not updated
+        $this->assertDatabaseMissing('showtimes', $updatedShowtime);
+        $this->assertDatabaseHas('showtimes', $originalShowtime);
+        $response->assertRedirect('/login');
+    }
+
+    public function test_regular_user_cannot_updated_showtime(): void
+    {
+        /* ARRANGE */
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $requestData = $this->generateRequestData($this->movie, $this->screen,'2026-02-17', '14:00');
+        $originalShowtime = $this->generateDatabaseData($this->movie, $this->screen, '2026-02-17 13:30:00');
+        $updatedShowtime = $this->generateDatabaseData($this->movie, $this->screen, '2026-02-17 14:00:00');
+
+        /* ACT */
+        // Submit a PATCH request from /showtimes/:id/edit
+        $response = $this->from("/showtimes/{$this->showtime->id}/edit")
+                         ->patch("/showtimes/{$this->showtime->id}", $requestData);
+
+        /* ASSERT */
+        // Assert that the showtime was not updated
+        $this->assertDatabaseMissing('showtimes', $updatedShowtime);
+        $this->assertDatabaseHas('showtimes', $originalShowtime);
+        $response->assertForbidden();
+    }
 }
