@@ -17,7 +17,7 @@ class ShowtimeObserver
      * Handle the Showtime "creating" event.
      * 
      * Calculates the end time of a movie.
-     * End time is calculated by adding the movie duration and a 30-minute buffer to the showtime's start_time.
+     * End time is calculated by adding the movie duration and a buffer to the showtime's start_time.
      * Mutate the original object by adding the calculated end time
      *
      * @param Showtime $showtime A showtime model

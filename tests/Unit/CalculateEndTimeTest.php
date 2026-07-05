@@ -8,7 +8,6 @@ use App\Models\Showtime;
 use App\Services\Showtime\CalculateEndTimeService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-// use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 
 use function PHPUnit\Framework\assertEquals;
@@ -31,12 +30,9 @@ class CalculateEndTimeTest extends TestCase
         $this->screen = Screen::factory()->create();
         
     }
-    /**
-     * A basic unit test example.
-     */
+
     public function test_calculates_end_time(): void
     {
-        $this->withoutExceptionHandling();
         /* ARRANGE */
         $showtime = new Showtime([
             'movie_id' => $this->movie->id,
@@ -50,8 +46,7 @@ class CalculateEndTimeTest extends TestCase
 
         $showtimeStart = Carbon::parse('2026-02-17 13:00');
 
-        // Manually calculate the end time (2026-02-17 15:00)
-        $timeToAdd = $this->movie->duration + 30;
+        $timeToAdd = $this->movie->duration + config('showtime.buffer');
         $showtimeEnd = $showtimeStart->copy()->addMinutes($timeToAdd);
 
         /* ACT */

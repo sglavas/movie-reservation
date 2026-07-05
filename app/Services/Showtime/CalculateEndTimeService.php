@@ -20,8 +20,7 @@ class CalculateEndTimeService
         // Get the movie this showtime belongs to
         $movie = $calculatedEndTime->movie;
 
-        // Add a 30-minute buffer (15 mins for cleaning, 15 for trailers)
-        $timeToAdd = $movie?->duration + 30;
+        $timeToAdd = $movie?->duration + config('showtime.buffer');
 
         $endTime = Carbon::parse($calculatedEndTime->start_time)->addMinutes($timeToAdd);
 
